@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Mooshak Surfers 3D: Lalbaug Pandal Heist 🐭🥮</title>
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Three.js Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <!-- Firebase App & Realtime Database SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+
+  <!-- Dadi Angry Shout Banner (Every 50 Laddus) -->
+  <div id="dadi-speech-bubble" class="hidden">
+    <div id="dadi-shout-text">"RUK CHOR CHUHE! MERI MITHAI WAPAS DE!" 👵💢🩴</div>
+  </div>
+
+  <!-- In-Game HUD -->
+  <div id="hud">
+    <div class="hud-card laddu-glow">🥮 <span id="laddu-count">0</span></div>
+    
+    <!-- Milestone Tracker to next 50 -->
+    <div class="milestone-box">
+      <div class="meter-label">Next Dadi Rage: <span id="rage-progress">0/50</span></div>
+      <div class="meter-bar-bg">
+        <div id="rage-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="hud-card dist-glow">🏃 <span id="meter-count">0</span>m</div>
+  </div>
+
+  <!-- Chappal Inbound Alert Indicator -->
+  <div id="chappal-warning" class="hidden">⚠️ CHAPPAL INBOUND! 🩴</div>
+
+  <!-- Start Overlay with Player Identity -->
+  <div id="start-screen" class="overlay">
+    <div class="header-emblem">🕉️ GANPATI BAPPA MORYA 🕉️</div>
+    <h1 class="main-title">MOOSHAK SURFERS 3D</h1>
+    <p class="tagline">Sprint through the Lalbaug Pandal, snatch Motichoor Laddus & Modaks for Bappa, and represent your campus on the global cloud leaderboard!</p>
+    
+    <!-- Player Credentials for Live Leaderboard -->
+    <div class="player-form">
+      <input type="text" id="player-name" placeholder="Enter Your Name / Nickname" maxlength="15" />
+      <input type="text" id="player-campus" placeholder="Enter Your Campus / College" maxlength="20" />
+    </div>
+
+    <div class="instruction-box">
+      <div>💻 <b>A / D</b> or <b>← / →</b> : Switch Lanes</div>
+      <div>💻 <b>W</b> or <b>↑</b> : Jump Over Wooden Mouse Traps</div>
+      <div>💻 <b>S</b> or <b>↓</b> : Duck / Roll Under Mud Stove Heat</div>
+      <div>📱 <b>Mobile:</b> Swipe to Steer, Jump, and Slide</div>
+    </div>
+
+    <div class="btn-group">
+      <button class="festive-btn" id="start-btn">RUN FOR BAPPA! 🥮🚀</button>
+      <button class="secondary-btn" id="view-leaderboard-btn">🏆 LEADERBOARD</button>
+    </div>
+  </div>
+
+  <!-- Ganesha Sabha & End Game Screen -->
+  <div id="game-over-screen" class="overlay hidden">
+    <div class="header-emblem">🙏 BAPPA'S DARBAR 🙏</div>
+    <h1 class="main-title" style="font-size: 2rem;">PRASAD OFFERINGS</h1>
+    <p id="game-over-msg">"Dadi hit you with her rubber chappal!"</p>
+    
+    <div class="scoreboard">
+      <div>Laddus Gathered: <b id="final-laddus" style="color:#ffd700;">0</b> 🥮</div>
+      <div>Sprint Distance: <b id="final-dist" style="color:#ff9933;">0</b>m</div>
+      <div>Campus Bank: <b id="bank-total" style="color:#ffee55;">0</b> 🥮</div>
+    </div>
+
+    <div class="store-container">
+      <div class="store-row">
+        <div>
+          <b>🧲 Swarna Modak Magnet</b>
+          <small>Pulls all sweets across tracks</small>
+        </div>
+        <button class="upgrade-btn" id="buy-magnet">20 🥮</button>
+      </div>
+      <div class="store-row">
+        <div>
+          <b>🛡️ Vahana Kavach</b>
+          <small>Absorbs one fatal collision</small>
+        </div>
+        <button class="upgrade-btn" id="buy-shield">30 🥮</button>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="festive-btn" id="restart-btn">START NEW RUN 🔄</button>
+      <button class="secondary-btn" id="game-over-leaderboard-btn">🏆 VIEW STANDINGS</button>
+    </div>
+  </div>
+
+  <!-- Cloud Leaderboard Modal -->
+  <div id="leaderboard-modal" class="overlay hidden">
+    <div class="leaderboard-card">
+      <h2 style="color:#ffaa00; margin-bottom: 4px;">🏆 CAMPUS LEADERBOARD</h2>
+      <p style="font-size: 0.8rem; color:#ffd2a0; margin-bottom: 12px;">Live Global Devotees in Bappa's Grand Sabha</p>
+      
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>Campus</th>
+            <th>Mithai</th>
+            <th>Dist</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Populated by Firebase via game.js -->
+        </tbody>
+      </table>
+
+      <button class="festive-btn" id="close-leaderboard-btn" style="margin-top: 14px; padding: 8px 24px; font-size: 1rem;">BACK TO GAME</button>
+    </div>
+  </div>
+
+  <canvas id="game-canvas"></canvas>
+
+  <script src="game.js"></script>
+</body>
+</html>
