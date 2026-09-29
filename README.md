@@ -62,4 +62,4 @@ Play as **Mooshak**, the loyal vahana of Lord Ganesha, sprinting through a vibra
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/](https://github.com/)<your-username>/mooshak-surfers-3d.git
+   git clone [https://github.com/Anand-Kamal/mooshak-surfers-3d.git]
